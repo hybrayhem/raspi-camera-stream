@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=">
+		<title></title>
+	</head>
+	<body>
+		<img id="video" autobuffer controls height="100%" width="100%" src="http://192.168.43.241/video_feed">
+
+	
+
+		<div id="msg"></div>
+
+<script type="text/javascript">
+	// array of the events we want to track
+	var events=new Array("abort","canplay","canplaythrough","durationchange","emptied","ended","error","loadeddata","loadedmetadata","loadstart","pause","play","playing","progress","ratechange","seeked","seeking","stalled","suspend","timeupdate","volumechange","waiting");
+	var vid=document.getElementById('video');
+	var msg = document.getElementById('msg');
+	// add event listeners to the video
+	for (var i in events) {
+		vid.addEventListener(events[i], showEvent, false);
+	}
+function showEvent(e) {
+	var addMsg = "";
+	if (e.type == "durationchange") {
+		addMsg = e.type + "[" + vid.duration + "]";
+	} else if (e.type == "seeked") {
+		addMsg = e.type + "[" + vid.currentTime + "]";
+	} else if (e.type == "timeupdate") {
+		// do nothing as there are a lot of these
+	} else if (e.type == "volumechange") {
+		addMsg = "volume " + (vid.muted ? "muted" : vid.volume);
+	} else {
+		addMsg = e.type;
+	}
+	if (addMsg != "") {
+		msg.innerHTML = addMsg + ((msg.innerHTML == "") ? "":", ") + msg.innerHTML;
+	}
+}
+</script>
+
+	</body>
+</html>
